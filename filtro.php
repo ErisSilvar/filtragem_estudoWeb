@@ -1,27 +1,42 @@
-<?php
-const FILTRO_IDADE = array(
-    'options' => array(
-        'default' => 0,
-        'min_range' => -20,
-        'max_range' => 20
-    )
-);
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtro de idade</title>
+</head>
+<body>
+    <?php
+        //Filtro de idade
+        const FILTRO_IDADE = array(
+            'options' => array(
+                'default' => 99,
+                'min_range' => -20,
+                'max_range' => 20
+            )
+            );
 
-if (isset($_POST['idade'])) {
-    $idade = filter_input(INPUT_POST, 'idade', FILTER_SANITIZE_SPECIAL_CHARS);
+        $idade = filter_input(INPUT_POST, 'idade', FILTER_VALIDATE_INT, FILTRO_IDADE);
 
-    $idade = filter_input(
-        INPUT_POST,
-        'idade',
-        FILTER_VALIDATE_INT,
-        FILTRO_IDADE
-    );
+        if (isset($idade)){
+            if ($idade === false){
+                echo '<p>Valores inválidos</p>';
+            } else {
+                if ($idade < -20 || $idade > 20){
+                    echo '<p>Idade fora da faixa permitida (-20 a 20)</p>';
+                } else {
+                    echo '<p>Idade: '. $idade. '</p>';
+                }
 
-    if ($idade === false) {
-        echo '<p>Idade inválida.</p>';
-    } else {
-        echo '<p>' . $idade . '</p>';
-    }
-}
+            }
+
+        } else {
+            echo '<p>Idade não definida</p>';
+        }
+
+    ?>
+</body>
+</html>
+
 
 
